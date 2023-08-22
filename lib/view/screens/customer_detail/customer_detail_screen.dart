@@ -1,6 +1,8 @@
 import 'package:customer_menu/constance/color_const.dart';
 import 'package:customer_menu/constance/strings_const.dart';
 import 'package:customer_menu/controller/customer_details_controller.dart';
+import 'package:customer_menu/view/screens/customer_detail/widget/detail_transfers_widget.dart';
+import 'package:customer_menu/view/screens/customer_detail/widget/row_strings_widget.dart';
 import 'package:customer_menu/view/widgets/custem_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,20 +32,52 @@ class CustomerDetailScreen extends StatelessWidget {
               end: 15.w,
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                RowStrings(
+                RowStringsWidget(
                   text1: "${Strings.nameTextField}:",
                   text2: controller.user.name!,
                 ),
-                RowStrings(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: CustomText(
+                        txt: "${Strings.notesTextField}:",
+                        color: Colors.black,
+                        fontSize: 17.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 15.w,
+                    ),
+                    Expanded(
+                      child: CustomText(
+                        txt: (controller.user.note != null &&
+                                controller.user.note!.isNotEmpty)
+                            ? controller.user.note!
+                            : Strings.nothings,
+                        color: Colors.black,
+                        fontSize: 20.sp,
+                        letterSpacing: 1,
+                        softWrap: true,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 40.h,
+                ),
+                RowStringsWidget(
                   text1: Strings.sumInputsDetail,
                   text2: "${controller.sumInputs}",
                 ),
-                RowStrings(
+                RowStringsWidget(
                   text1: Strings.sumOutputsDetail,
                   text2: "${controller.sumOutputs}",
                 ),
-                RowStrings(
+                RowStringsWidget(
                   text1: Strings.totalAmount,
                   text2: controller.totalAmount.toStringAsFixed(2),
                   colorText2: (controller.totalAmount == 0)
@@ -110,108 +144,6 @@ class CustomerDetailScreen extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class RowStrings extends StatelessWidget {
-  const RowStrings({
-    Key? key,
-    required this.text1,
-    required this.text2,
-    this.colorText2,
-  }) : super(key: key);
-
-  final String text1;
-  final String text2;
-  final Color? colorText2;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsetsDirectional.only(bottom: 20.h),
-      child: Row(
-        children: [
-          CustomText(
-            txt: text1,
-            color: Colors.black,
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-          ),
-          SizedBox(
-            width: 15.w,
-          ),
-          CustomText(
-            txt: text2,
-            color: colorText2 ?? Colors.black,
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class DetailTransfersWidget extends StatelessWidget {
-  const DetailTransfersWidget({
-    Key? key,
-    required this.amount,
-    required this.date,
-    this.colorText2,
-  }) : super(key: key);
-
-
-  final String amount;
-  final String date;
-  final Color? colorText2;
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsetsDirectional.symmetric(vertical: 10.h, horizontal: 5.w),
-      margin: EdgeInsetsDirectional.only(bottom: 20.h),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade200,
-      ),
-      child: Row(
-        children: [
-          CustomText(
-            txt: Strings.date,
-            color: Colors.black,
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-          ),
-          SizedBox(
-            width: 15.w,
-          ),
-          CustomText(
-            txt: date,
-            color: colorText2 ?? Colors.black,
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-          ),
-          SizedBox(
-            width: 40.w,
-          ),
-          CustomText(
-            txt: Strings.amount,
-            color: Colors.black,
-            fontSize: 17.sp,
-            fontWeight: FontWeight.w500,
-          ),
-          SizedBox(
-            width: 15.w,
-          ),
-          CustomText(
-            txt: amount,
-            color: colorText2 ?? Colors.black,
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ],
       ),
     );
   }

@@ -50,6 +50,7 @@ class FindUsersWidget extends StatelessWidget {
                 ),
                 Divider(
                   color: checkIsSelectedUser ? Colors.black : Colors.red,
+                  thickness: 1,
                 ),
                 Expanded(
                   child: ListView.separated(

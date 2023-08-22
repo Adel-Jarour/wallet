@@ -1,5 +1,4 @@
 import 'package:customer_menu/constance/strings_const.dart';
-import 'package:customer_menu/controller/home_controller.dart';
 import 'package:customer_menu/data/local/db_controller/db_helper.dart';
 import 'package:customer_menu/data/models/user_model.dart';
 import 'package:customer_menu/view/widgets/custem_text.dart';
@@ -22,16 +21,14 @@ class AddAmountController extends GetxController {
     }
   }
 
-  final HomeController homeController = Get.find();
-
   var searchText = '';
-  var selectedUsername = '';
 
   List<UserModel> filteredUsers = [];
 
   void setSearchText(String text) {
     searchText = text;
-    getUser();
+    selectedUser = UserModel.clear();
+    getFilterUsers();
     update();
   }
 
@@ -47,7 +44,6 @@ class AddAmountController extends GetxController {
 
   void setSelectedUser(UserModel user) {
     selectedUser = user;
-    selectedUsername = user.name!;
     filteredUsers = [];
     name.text = user.name!;
     isSelectedUser = true;
@@ -57,7 +53,7 @@ class AddAmountController extends GetxController {
   List<UserModel> users = [];
   bool loading = false;
 
-  Future getUser() async {
+  Future getFilterUsers() async {
     filteredUsers = [];
     loading = true;
     update();
@@ -79,9 +75,12 @@ class AddAmountController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   bool checkName() {
-    isSelectedUser = false;
-    update();
-    return selectedUsername != '';
+    if (selectedUser!.name == '' || selectedUser!.name == null) {
+      isSelectedUser = false;
+      update();
+      return false;
+    }
+    return true;
   }
 
   bool checkData() {

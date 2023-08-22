@@ -10,4 +10,10 @@ class UserModel {
     name = map['name'];
     note = map['note'];
   }
+
+  UserModel.clear() {
+    id = 0;
+    name = '';
+    note = '';
+  }
 }

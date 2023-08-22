@@ -29,6 +29,7 @@ class AddAmountScreen extends StatelessWidget {
             vertical: 40.h,
           ),
           child: GetBuilder<AddAmountController>(
+            init: AddAmountController(),
             builder: (controller) => Form(
               key: controller.formKey,
               child: Column(
