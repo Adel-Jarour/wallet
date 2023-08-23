@@ -80,7 +80,7 @@ class CustomTextFormField extends StatelessWidget {
             color: Colors.grey,
             fontSize: 14.sp,
           ),
-          SizedBox(width: 20.w,),
+          SizedBox(width: 15.w,),
           Expanded(
             child: TextFormField(
               textDirection: TextDirection.rtl,
@@ -136,8 +136,8 @@ class CustomTextFormField extends StatelessWidget {
                 ),
                 contentPadding: EdgeInsetsDirectional.only(
                   end: horizontalPadding ?? 8.w,
-                  top: verticalPadding ?? 19.h,
-                  bottom: verticalPadding ?? 19.h,
+                  top: verticalPadding ?? 16.h,
+                  bottom: verticalPadding ?? 16.h,
                   start: horizontalPadding ?? 8.w,
                 ),
                 prefixIcon: prefixIcon,

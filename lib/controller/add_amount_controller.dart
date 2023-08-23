@@ -74,17 +74,26 @@ class AddAmountController extends GetxController {
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  String? errorName = null;
+
   bool checkName() {
-    if (selectedUser!.name == '' || selectedUser!.name == null) {
+    if (selectedUser == null) {
+      if (selectedUser!.name == '') {
+        errorName = 'يرجى إدخال الإسم';
+      }
       isSelectedUser = false;
       update();
       return false;
     }
+    errorName = null;
+    update();
     return true;
   }
 
   bool checkData() {
-    if (formKey.currentState!.validate() && checkName()) {
+    bool date = checkSelectedDate();
+    // bool name = checkName();
+    if (formKey.currentState!.validate() && checkName() && date) {
       return true;
     }
     return false;
@@ -94,13 +103,13 @@ class AddAmountController extends GetxController {
     if (incoming) {
       await DatabaseHelper().insertAmount(
         selectedUser?.id ?? 0,
-        date.text,
+        selectedDate,
         input: amount.text,
       );
     } else {
       await DatabaseHelper().insertAmount(
         selectedUser?.id ?? 0,
-        date.text,
+        selectedDate,
         output: amount.text,
       );
     }
@@ -138,10 +147,44 @@ class AddAmountController extends GetxController {
     }
   }
 
+  bool checkDate() {
+    return dateTime.isNotEmpty;
+  }
+
+  List<DateTime?> dateTime = [];
+
+  String selectedDate = '';
+  bool? isSelectedDate = true;
+
+  void changeDateTime(List<DateTime?> dates) {
+    if (dates.isNotEmpty) {
+      isSelectedDate = true;
+      dateTime = dates;
+      selectedDate = dateTime[0].toString().split(" ")[0];
+      date.text = selectedDate;
+      print(dateTime[0].toString().split(" ")[0]);
+    } else {
+      isSelectedDate = false;
+    }
+    update();
+  }
+
+  bool checkSelectedDate() {
+    if (dateTime.isEmpty && isSelectedDate != null) {
+      isSelectedDate = false;
+      update();
+      return false;
+    }
+    isSelectedDate = true;
+    update();
+    return true;
+  }
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    print(dateTime);
     name = TextEditingController();
     amount = TextEditingController();
     date = TextEditingController();
