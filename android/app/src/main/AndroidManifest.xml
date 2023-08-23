@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.customer_menu">
    <application
-        android:label="customer_menu"
+        android:label="محفظتي"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

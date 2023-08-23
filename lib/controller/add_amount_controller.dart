@@ -1,9 +1,8 @@
+import 'package:customer_menu/components/custom_snackbar.dart';
 import 'package:customer_menu/constance/strings_const.dart';
 import 'package:customer_menu/data/local/db_controller/db_helper.dart';
 import 'package:customer_menu/data/models/user_model.dart';
-import 'package:customer_menu/view/widgets/custem_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class AddAmountController extends GetxController {
@@ -92,7 +91,6 @@ class AddAmountController extends GetxController {
 
   bool checkData() {
     bool date = checkSelectedDate();
-    // bool name = checkName();
     if (formKey.currentState!.validate() && checkName() && date) {
       return true;
     }
@@ -122,23 +120,9 @@ class AddAmountController extends GetxController {
       isSubmit = true;
       update();
       await saveDataToDB();
-      Get.snackbar(
-        "",
-        "",
-        icon: const Icon(Icons.verified, color: Colors.green),
-        snackPosition: SnackPosition.TOP,
-        titleText: CustomText(
-          txt: Strings.addAmountHome,
-          fontSize: 18.sp,
-        ),
-        messageText: CustomText(
-          txt: Strings.successAddAmount,
-          color: Colors.black,
-          fontSize: 15.sp,
-        ),
-        padding: EdgeInsets.all(20.0.r),
-        borderRadius: 27.0,
-        backgroundColor: Colors.white60,
+      CustomSnackBar.showCustomToast(
+        title: Strings.addAmountHome,
+        message: Strings.successAddAmount,
       );
       isSubmit = false;
       name.clear();

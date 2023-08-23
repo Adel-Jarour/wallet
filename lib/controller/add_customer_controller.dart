@@ -1,9 +1,8 @@
+import 'package:customer_menu/components/custom_snackbar.dart';
 import 'package:customer_menu/constance/strings_const.dart';
 import 'package:customer_menu/controller/home_controller.dart';
 import 'package:customer_menu/data/local/db_controller/db_helper.dart';
-import 'package:customer_menu/view/widgets/custem_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -29,43 +28,15 @@ class AddCustomerController extends GetxController {
         name.text,
         note.text,
       );
-      Get.snackbar(
-        "",
-        "",
-        icon: const Icon(Icons.verified, color: Colors.green),
-        snackPosition: SnackPosition.TOP,
-        titleText: CustomText(
-          txt: Strings.addCustomerHome,
-          fontSize: 18.sp,
-        ),
-        messageText: CustomText(
-          txt: Strings.successToAddCustomer,
-          color: Colors.black,
-          fontSize: 15.sp,
-        ),
-        padding: EdgeInsets.all(20.0.r),
-        borderRadius: 27.0,
-        backgroundColor: Colors.white60,
+      CustomSnackBar.showCustomToast(
+        title: Strings.addCustomerHome,
+        message: Strings.successToAddCustomer,
       );
     } catch (e) {
       if (e is DatabaseException && e.getResultCode() == 2067) {
-        Get.snackbar(
-          "",
-          "",
-          icon: const Icon(Icons.error, color: Colors.red),
-          snackPosition: SnackPosition.TOP,
-          titleText: CustomText(
-            txt: Strings.addCustomerHome,
-            fontSize: 18.sp,
-          ),
-          messageText: CustomText(
-            txt: Strings.failedToAddCustomer,
-            color: Colors.black,
-            fontSize: 15.sp,
-          ),
-          padding: EdgeInsets.all(20.0.r),
-          borderRadius: 27.0,
-          backgroundColor: Colors.white60,
+        CustomSnackBar.showCustomErrorToast(
+          title: Strings.addCustomerHome,
+          message: Strings.failedToAddCustomer,
         );
       } else {
         rethrow;
