@@ -1,6 +1,8 @@
 # customer_menu
 
-A new Flutter project.
+A new Flutter project, A new Flutter project, this application stores your payments to people or from people.
+
+I use in this app SQL, means it just store data in the local device.
 
 ## Getting Started
 
