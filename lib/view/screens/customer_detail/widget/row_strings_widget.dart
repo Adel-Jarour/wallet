@@ -8,16 +8,19 @@ class RowStringsWidget extends StatelessWidget {
     required this.text1,
     required this.text2,
     this.colorText2,
+    this.endLine = false,
   }) : super(key: key);
 
   final String text1;
   final String text2;
   final Color? colorText2;
+  final bool endLine;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsetsDirectional.only(bottom: 40.h),
+      margin: EdgeInsetsDirectional.only(bottom: endLine ? 0 : 30.h),
+      width: MediaQuery.of(context).size.width,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(

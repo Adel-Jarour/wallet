@@ -64,6 +64,13 @@ class AddAmountController extends GetxController {
           filteredUsers.add(user);
         }
       }
+      if (filteredUsers.isEmpty) {
+        nameError = 'لا يوجد شخص بهذا الإسم';
+      } else {
+        nameError = null;
+      }
+    } else {
+      nameError = 'الرجاء كتابة إسم';
     }
   }
 
@@ -73,25 +80,27 @@ class AddAmountController extends GetxController {
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  String? errorName = null;
+  String? nameError = null;
 
-  bool checkName() {
-    if (selectedUser == null) {
-      if (selectedUser!.name == '') {
-        errorName = 'يرجى إدخال الإسم';
-      }
+  bool checkSelectedUser() {
+    if (selectedUser!.name!.isNotEmpty) {
+      nameError = null;
+      update();
+      return true;
+    } else if (name.text.isNotEmpty) {
+      nameError = 'الرجاء إختيار إسم';
       isSelectedUser = false;
       update();
       return false;
     }
-    errorName = null;
+    nameError = 'الرجاء كتابة إسم';
     update();
-    return true;
+    return false;
   }
 
   bool checkData() {
     bool date = checkSelectedDate();
-    if (formKey.currentState!.validate() && checkName() && date) {
+    if (formKey.currentState!.validate() && checkSelectedUser() && date) {
       return true;
     }
     return false;
@@ -146,7 +155,6 @@ class AddAmountController extends GetxController {
       dateTime = dates;
       selectedDate = dateTime[0].toString().split(" ")[0];
       date.text = selectedDate;
-      print(dateTime[0].toString().split(" ")[0]);
     } else {
       isSelectedDate = false;
     }

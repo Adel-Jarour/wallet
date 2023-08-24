@@ -10,8 +10,12 @@ class Strings {
   static const String amountTextField = "المبلغ";
   static const String dateTextField = "التاريخ";
   static const String notesTextField = "ملاحظات";
+  static const String searchCustomerTextField = "إبحث عن إسم";
   static const String totalOutgoingTextField = "إجمالي المدفوعات الصادرة";
   static const String totalIncomingTextField = "إجمالي المدفوعات الواردة";
+
+  static const String from = "من";
+  static const String to = "إلى";
 
   static const String addButton = "إضافة";
   static const String saveButton = "حفظ";
@@ -34,7 +38,7 @@ class Strings {
 
   static const String allInputOperations = "جميع عمليات الإدخال";
   static const String allOutputOperations = "جميع عمليات الإخراج";
-
   static const String nothings = "لا يوجد";
 
+  static const String type = "العملية";
 }

@@ -1,11 +1,55 @@
 import 'package:customer_menu/data/local/db_controller/db_helper.dart';
 import 'package:customer_menu/data/models/user_model.dart';
+import 'package:customer_menu/routing/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   List<UserModel> users = [];
   bool loading = false;
+
+  var searchText = '';
+  String? nameError;
+
+  List<UserModel> filteredUsers = [];
+
+  void setSearchText(String text) {
+    searchText = text;
+    getFilterUser();
+    update();
+  }
+
+  getFilterUser() {
+    filteredUsers = [];
+    update();
+    if (name.text.isNotEmpty && name.text != '') {
+      for (var i in users) {
+        if (i.name!.toLowerCase().startsWith(searchText)) {
+          filteredUsers.add(i);
+        }
+      }
+      if (filteredUsers.isEmpty) {
+        nameError = 'لا يوجد شخص بهذا الإسم';
+      } else {
+        filteredUsers = filteredUsers.take(5).toList();
+        nameError = null;
+      }
+    } else {
+      nameError = 'الرجاء كتابة إسم';
+    }
+  }
+
+  late UserModel? selectedUser;
+
+  void setSelectedUser(UserModel user) {
+    selectedUser = user;
+    filteredUsers = [];
+    name.clear();
+    update();
+    Get.toNamed(Routes.customerDetails, arguments: [selectedUser]);
+  }
+
+  late TextEditingController name;
 
   Future getUser() async {
     users = [];
@@ -19,76 +63,12 @@ class HomeController extends GetxController {
     update();
   }
 
-
-  var searchText = '';
-  var selectedUsername = '';
-
-  List<UserModel> filteredUsers = [];
-
-  void setSearchText(String text) {
-    searchText = text;
-    getFilterUser();
-    update();
-  }
-
-  bool? isSelectedUser;
-  late UserModel? selectedUser;
-
-  bool checkIsSelectedUser() {
-    if (isSelectedUser != null) {
-      return isSelectedUser!;
-    }
-    return true;
-  }
-
-  void setSelectedUser(UserModel user) {
-    selectedUser = user;
-    selectedUsername = user.name!;
-    filteredUsers = [];
-    name.text = user.name!;
-    isSelectedUser = true;
-    update();
-  }
-
-  List<UserModel> filterUsers = [];
-
-  Future getFilterUser() async {
-    filteredUsers = [];
-    update();
-    if (name.text.isNotEmpty && name.text != '') {
-      final res = await DatabaseHelper().getAllUsers();
-      for (var i in res ?? []) {
-        final user = UserModel.fromMap(i);
-        if (user.name!.toLowerCase().startsWith(searchText)) {
-          filteredUsers.add(user);
-        }
-      }
-    }
-  }
-
-  late TextEditingController name;
-
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  bool checkName() {
-    isSelectedUser = false;
-    update();
-    return selectedUsername != '';
-  }
-
-  bool checkData() {
-    if (formKey.currentState!.validate() && checkName()) {
-      return true;
-    }
-    return false;
-  }
-
   @override
-  void onInit() {
+  void onInit() async{
     // TODO: implement onInit
     super.onInit();
-    getUser();
     name = TextEditingController();
+    await getUser();
   }
 
   @override

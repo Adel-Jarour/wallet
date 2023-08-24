@@ -1,8 +1,7 @@
+import 'package:customer_menu/constance/color_const.dart';
 import 'package:customer_menu/constance/strings_const.dart';
 import 'package:customer_menu/controller/home_controller.dart';
-import 'package:customer_menu/routing/routes.dart';
 import 'package:customer_menu/view/widgets/custem_text.dart';
-import 'package:customer_menu/view/widgets/custom_text_form_field.dart';
 import 'package:customer_menu/view/widgets/find_users_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,43 +46,65 @@ class HomeScreen extends StatelessWidget {
                     controller.setSelectedUser(controller.filteredUsers[index]);
                   },
                   filterUsers: controller.filteredUsers,
-                  checkIsSelectedUser: controller.checkIsSelectedUser(),
+                  checkIsSelectedUser: true,
                 ),
-                CustomTextFormField(
+                TextFormField(
                   controller: controller.name,
-                  hintTxt: Strings.nameTextField,
                   onChanged: (text) {
                     controller.setSearchText(text);
-                    Get.toNamed(Routes.customerDetails,
-                        arguments: [controller.selectedUser]);
                   },
-                ),
-                SizedBox(
-                  height: 40.h,
-                ),
-                ...controller.users
-                    .map(
-                      (e) => Padding(
-                        padding: EdgeInsetsDirectional.only(bottom: 30.h),
-                        child: ListTile(
-                          contentPadding: EdgeInsetsDirectional.zero,
-                          title: CustomText(
-                            txt: e.name,
-                            fontSize: 20.sp,
-                          ),
-                          subtitle: CustomText(
-                            txt: e.note,
-                            fontSize: 17.sp,
-                            color: Colors.grey,
-                          ),
-                          onTap: () {
-                            Get.toNamed(Routes.customerDetails,
-                                arguments: [e]);
-                          },
-                        ),
+                  textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.right,
+                  onTapOutside: (x) {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  },
+                  style: TextStyle(
+                    fontFamily: "IBMPlexSansArabic",
+                    color: Colors.black,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: Strings.searchCustomerTextField,
+                    hintStyle: TextStyle(
+                      fontFamily: "IBMPlexSansArabic",
+                      color: Colors.grey,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    fillColor: Colors.white,
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: const BorderSide(
+                        color: ColorConst.primaryColor,
                       ),
-                    )
-                    .toList(),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide.none,
+                    ),
+                    errorBorder: UnderlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.red,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    contentPadding: EdgeInsetsDirectional.only(
+                      end: 8.w,
+                      top: 16.h,
+                      bottom: 16.h,
+                      start: 8.w,
+                    ),
+                    errorText: controller.nameError,
+                    errorStyle: TextStyle(
+                      fontFamily: "IBMPlexSansArabic",
+                      color: Colors.red,
+                      fontSize: 13.sp,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
