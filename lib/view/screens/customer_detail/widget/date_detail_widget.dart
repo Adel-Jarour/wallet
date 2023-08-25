@@ -24,7 +24,7 @@ class DateDetailWidget extends StatelessWidget {
             Expanded(
               child: CustomButton(
                 high: 45.h,
-                txt: controller.fromDates.isNotEmpty
+                txt: controller.fromDate != ''
                     ? controller.fromDate
                     : Strings.from,
                 onTap: () async {
@@ -35,7 +35,7 @@ class DateDetailWidget extends StatelessWidget {
                     value: controller.fromDates,
                     borderRadius: BorderRadius.circular(15),
                   );
-                  controller.changeFromDateTime(from ?? []);
+                  controller.changeFromDateTime(from);
                 },
                 colorTxt: ColorConst.primaryColor,
                 colorButton: Colors.transparent,
@@ -50,7 +50,7 @@ class DateDetailWidget extends StatelessWidget {
             Expanded(
               child: CustomButton(
                 high: 45.h,
-                txt: controller.todDates.isNotEmpty
+                txt: controller.toDate != ''
                     ? controller.toDate
                     : Strings.to,
                 onTap: () async {
@@ -61,7 +61,7 @@ class DateDetailWidget extends StatelessWidget {
                     value: controller.todDates,
                     borderRadius: BorderRadius.circular(15),
                   );
-                  controller.changeToDateTime(to ?? []);
+                  controller.changeToDateTime(to);
                 },
                 colorTxt: ColorConst.primaryColor,
                 colorButton: Colors.transparent,

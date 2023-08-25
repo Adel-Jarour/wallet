@@ -82,4 +82,18 @@ class DatabaseHelper {
       whereArgs: [userId],
     );
   }
+
+  // Future<List<Map<String, dynamic>>> getInputsAndOutputsForUserAndDateRange(
+  //     Database db, int userId, DateTime startDate, DateTime endDate) async {
+  //   String formattedStartDate = startDate.toIso8601String();
+  //   String formattedEndDate = endDate.toIso8601String();
+  //
+  //   List<Map<String, dynamic>> results = await db.rawQuery('''
+  //   SELECT * FROM amount
+  //   WHERE user_id = ? AND date >= ? AND date <= ?
+  // ''', [userId, formattedStartDate, formattedEndDate]);
+  //
+  //   return results;
+  // }
+
 }

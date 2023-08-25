@@ -85,12 +85,17 @@ class CustomerDetailsController extends GetxController {
 
   String fromDate = '';
 
-  void changeFromDateTime(List<DateTime?> dates) {
-    if (dates.isNotEmpty) {
-      fromDates = dates;
-      fromDate = fromDates[0].toString().split(" ")[0];
-      print(fromDates[0].toString().split(" ")[0]);
-    } else {}
+  void changeFromDateTime(List<DateTime?>? dates) {
+    if (dates != null) {
+      if (dates.isNotEmpty) {
+        fromDates = dates;
+        fromDate = fromDates[0].toString().split(" ")[0];
+      }
+    } else {
+      fromDate = '';
+      filterError = '';
+    }
+    changeFilters();
     update();
   }
 
@@ -98,13 +103,89 @@ class CustomerDetailsController extends GetxController {
 
   String toDate = '';
 
-  void changeToDateTime(List<DateTime?> dates) {
-    if (dates.isNotEmpty) {
-      todDates = dates;
-      toDate = todDates[0].toString().split(" ")[0];
-      print(todDates[0].toString().split(" ")[0]);
-    } else {}
+  void changeToDateTime(List<DateTime?>? dates) {
+    if (dates != null) {
+      if (dates.isNotEmpty) {
+        todDates = dates;
+        toDate = todDates[0].toString().split(" ")[0];
+      }
+    } else {
+      toDate = '';
+      filterError = '';
+    }
+    changeFilters();
     update();
+  }
+
+  List<AmountModel> userAmountFilter = [];
+  String filterError = '';
+
+  void changeFilters() {
+    userAmountFilter = [];
+
+    if (fromDate != '' && toDate != '') {
+      filterFromAndTo();
+    } else if (fromDate != '') {
+      filterFromDate();
+    } else if (toDate != '') {
+      filterToDate();
+    }
+  }
+
+  void filterFromAndTo() {
+    print("filterFromAndTo...");
+    for (var i in userAmount) {
+      DateTime storedDate = dateFormat(i.date!);
+      if (!storedDate.isBefore(fromDates[0]!) &&
+          !storedDate.isAfter(todDates[0]!)) {
+        userAmountFilter.add(i);
+      }
+    }
+    if (userAmountFilter.isEmpty) {
+      filterError = 'لا يوجد عمليات من تاريخ  $fromDate إلى تاريخ  $toDate';
+    } else {
+      filterError = '';
+      length = 10;
+    }
+  }
+
+  void filterFromDate() {
+    for (var i in userAmount) {
+      DateTime storedDate = dateFormat(i.date!);
+      if (!storedDate.isBefore(fromDates[0]!)) {
+        userAmountFilter.add(i);
+      }
+    }
+    if (userAmountFilter.isEmpty) {
+      filterError = 'لا يوجد عمليات من تاريخ  $fromDate';
+    } else {
+      filterError = '';
+      length = 10;
+    }
+  }
+
+  void filterToDate() {
+    for (var i in userAmount) {
+      DateTime storedDate = dateFormat(i.date!);
+      if (!storedDate.isAfter(todDates[0]!)) {
+        userAmountFilter.add(i);
+      }
+    }
+    if (userAmountFilter.isEmpty) {
+      filterError = 'لا يوجد عمليات إلى تاريخ  $toDate';
+    } else {
+      filterError = '';
+      length = 10;
+    }
+  }
+
+  DateTime dateFormat(String date) {
+    List<String> dateParts = date.split('-');
+    int year = int.parse(dateParts[0]);
+    int month = int.parse(dateParts[1]);
+    int day = int.parse(dateParts[2]);
+
+    return DateTime(year, month, day);
   }
 
   @override
