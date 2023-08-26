@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:customer_menu/constance/strings_const.dart';
 import 'package:customer_menu/data/local/db_controller/db_helper.dart';
 import 'package:customer_menu/data/models/amount_model.dart';
@@ -77,14 +79,13 @@ class CustomerDetailsController extends GetxController {
   final ScrollController scrollController = ScrollController();
 
   void scrollToEnd(BuildContext context) {
-    double position = -(reversedUserAmount.length - length) *
-        (MediaQuery.of(context).size.height);
-
-    scrollController.animateTo(
-      position,
-      duration: Duration(milliseconds: 800),
-      curve: Curves.easeInOut,
-    );
+    Timer(Duration(milliseconds: 10), () {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    });
   }
 
   List<DateTime?> fromDates = [];
