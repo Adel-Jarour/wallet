@@ -83,17 +83,12 @@ class DatabaseHelper {
     );
   }
 
-  // Future<List<Map<String, dynamic>>> getInputsAndOutputsForUserAndDateRange(
-  //     Database db, int userId, DateTime startDate, DateTime endDate) async {
-  //   String formattedStartDate = startDate.toIso8601String();
-  //   String formattedEndDate = endDate.toIso8601String();
-  //
-  //   List<Map<String, dynamic>> results = await db.rawQuery('''
-  //   SELECT * FROM amount
-  //   WHERE user_id = ? AND date >= ? AND date <= ?
-  // ''', [userId, formattedStartDate, formattedEndDate]);
-  //
-  //   return results;
-  // }
-
+  Future<List<Map<String, dynamic>>?> getAllInputOutputAmounts() async {
+    final db = await database;
+    return await db?.rawQuery('''
+      SELECT users.name, amount.input, amount.output, amount.date
+      FROM users
+      INNER JOIN amount ON users.id = amount.user_id
+    ''');
+  }
 }

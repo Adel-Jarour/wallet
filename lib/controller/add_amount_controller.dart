@@ -1,11 +1,15 @@
 import 'package:customer_menu/components/custom_snackbar.dart';
 import 'package:customer_menu/constance/strings_const.dart';
+import 'package:customer_menu/controller/home_controller.dart';
 import 'package:customer_menu/data/local/db_controller/db_helper.dart';
 import 'package:customer_menu/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AddAmountController extends GetxController {
+
+  final HomeController homeController = Get.find();
+
   bool incoming = true;
   bool outComing = false;
 
@@ -137,6 +141,7 @@ class AddAmountController extends GetxController {
       name.clear();
       amount.clear();
       date.clear();
+      homeController.getTotal();
     }
   }
 
@@ -176,7 +181,6 @@ class AddAmountController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    print(dateTime);
     name = TextEditingController();
     amount = TextEditingController();
     date = TextEditingController();

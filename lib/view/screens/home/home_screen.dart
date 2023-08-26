@@ -1,8 +1,10 @@
-import 'package:customer_menu/constance/color_const.dart';
 import 'package:customer_menu/constance/strings_const.dart';
 import 'package:customer_menu/controller/home_controller.dart';
+import 'package:customer_menu/view/screens/customer_detail/widget/row_strings_widget.dart';
+import 'package:customer_menu/view/screens/home/widget/home_text_field_widget.dart';
 import 'package:customer_menu/view/widgets/custem_text.dart';
 import 'package:customer_menu/view/widgets/find_users_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -48,63 +50,37 @@ class HomeScreen extends StatelessWidget {
                   filterUsers: controller.filteredUsers,
                   checkIsSelectedUser: true,
                 ),
-                TextFormField(
-                  controller: controller.name,
-                  onChanged: (text) {
-                    controller.setSearchText(text);
-                  },
-                  textDirection: TextDirection.rtl,
-                  textAlign: TextAlign.right,
-                  onTapOutside: (x) {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                  },
-                  style: TextStyle(
-                    fontFamily: "IBMPlexSansArabic",
-                    color: Colors.black,
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: Strings.searchCustomerTextField,
-                    hintStyle: TextStyle(
-                      fontFamily: "IBMPlexSansArabic",
-                      color: Colors.grey,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    fillColor: Colors.white,
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: const BorderSide(
-                        color: ColorConst.primaryColor,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    errorBorder: UnderlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: Colors.red,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    contentPadding: EdgeInsetsDirectional.only(
-                      end: 8.w,
-                      top: 16.h,
-                      bottom: 16.h,
-                      start: 8.w,
-                    ),
-                    errorText: controller.nameError,
-                    errorStyle: TextStyle(
-                      fontFamily: "IBMPlexSansArabic",
-                      color: Colors.red,
-                      fontSize: 13.sp,
-                    ),
-                  ),
+                HomeTextFieldWidget(),
+                SizedBox(
+                  height: 60.h,
                 ),
+                controller.loading
+                    ? CupertinoActivityIndicator()
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RowStringsWidget(
+                            text1: Strings.sumInputsDetail,
+                            text2: "${controller.totalInput}",
+                            colorText2: Colors.green,
+                          ),
+                          RowStringsWidget(
+                            text1: Strings.sumOutputsDetail,
+                            text2: "${controller.totalOutput}",
+                            colorText2: Colors.redAccent,
+                          ),
+                          RowStringsWidget(
+                            text1: Strings.totalAmount,
+                            text2: controller.totalString,
+                            colorText2: (controller.total == 0)
+                                ? Colors.black
+                                : (controller.total < 0)
+                                    ? Colors.red
+                                    : Colors.green,
+                            endLine: true,
+                          ),
+                        ],
+                      ),
               ],
             ),
           ),

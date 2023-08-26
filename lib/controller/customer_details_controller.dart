@@ -16,6 +16,7 @@ class CustomerDetailsController extends GetxController {
   double sumInputs = 0;
   double sumOutputs = 0;
   double totalAmount = 0;
+  String totalAmountString = '';
 
   bool loading = false;
 
@@ -24,6 +25,10 @@ class CustomerDetailsController extends GetxController {
     userInputs = [];
     userOutputs = [];
     reversedUserAmount = [];
+    totalAmount = 0;
+    sumInputs = 0;
+    sumOutputs = 0;
+    totalAmountString = '';
     loading = true;
     update();
 
@@ -41,6 +46,7 @@ class CustomerDetailsController extends GetxController {
     }
     reversedUserAmount = List.from(userAmount.reversed);
     totalAmount = sumInputs - sumOutputs;
+    totalAmountString = '${totalAmount.abs().toStringAsFixed(2)}';
     loading = false;
     update();
   }
@@ -133,7 +139,6 @@ class CustomerDetailsController extends GetxController {
   }
 
   void filterFromAndTo() {
-    print("filterFromAndTo...");
     for (var i in userAmount) {
       DateTime storedDate = dateFormat(i.date!);
       if (!storedDate.isBefore(fromDates[0]!) &&

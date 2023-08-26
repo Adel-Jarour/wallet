@@ -35,6 +35,7 @@ class CustomSnackBar {
 
   static showCustomToast({String? title, required String message,Color? color,Duration? duration}){
     Get.rawSnackbar(
+      duration: Duration(seconds: 1),
       titleText: CustomText(txt: title, fontSize: 17.sp, color: Colors.white,),
       snackStyle: SnackStyle.FLOATING,
       backgroundColor: color ?? Colors.green,
@@ -42,7 +43,7 @@ class CustomSnackBar {
         Get.closeAllSnackbars();
       },
       messageText: CustomText(txt: message, fontSize: 17.sp, color: Colors.white,),
-      animationDuration: Duration(seconds: 2),
+      animationDuration: Duration(seconds: 1),
       margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       borderRadius: 8.0,
       snackPosition: SnackPosition.TOP,
@@ -52,6 +53,7 @@ class CustomSnackBar {
 
   static showCustomErrorToast({String? title, required String message,Color? color,Duration? duration}){
     Get.rawSnackbar(
+      duration: Duration(seconds: 1),
       titleText: CustomText(txt: title, fontSize: 17.sp, color: Colors.white,),
       snackStyle: SnackStyle.FLOATING,
       backgroundColor: color ?? Colors.redAccent,
@@ -59,7 +61,7 @@ class CustomSnackBar {
         Get.closeAllSnackbars();
       },
       messageText: CustomText(txt: message, fontSize: 17.sp, color: Colors.white,),
-      animationDuration: Duration(seconds: 2),
+      animationDuration: Duration(seconds: 1),
       margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       borderRadius: 8.0,
       snackPosition: SnackPosition.TOP,
