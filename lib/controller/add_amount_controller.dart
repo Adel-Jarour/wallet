@@ -215,6 +215,7 @@ class AddAmountController extends GetxController {
         title: Strings.addAmountHome,
         message: Strings.successUpdateAmount,
       );
+      homeController.getTotal();
     }
   }
 
