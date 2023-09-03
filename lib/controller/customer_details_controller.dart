@@ -53,12 +53,33 @@ class CustomerDetailsController extends GetxController {
     update();
   }
 
+  bool isDeleted = false;
+
+  Future<void> deleteAmount(int id) async {
+
+    isDeleted = true;
+    update();
+
+    final res = await DatabaseHelper().deleteAmount(id, user.id);
+
+    isDeleted = false;
+    getUserAmounts();
+    update();
+
+    if (res != null) {
+      Get.back();
+    }
+
+  }
+
   String checkType({required String? input}) {
     if (input != null) {
       return Strings.incomeButton;
     }
     return Strings.outcomeButton;
   }
+
+  bool endElements = false;
 
   int numOfElements() {
     return (reversedUserAmount.length <= length)
@@ -71,9 +92,14 @@ class CustomerDetailsController extends GetxController {
   void increaseLength(BuildContext context) {
     if (reversedUserAmount.length > length) {
       length += 10;
-      update();
     }
     scrollToEnd(context);
+    if (reversedUserAmount.length <= length) {
+      endElements = true;
+    } else {
+      endElements = false;
+    }
+    update();
   }
 
   final ScrollController scrollController = ScrollController();

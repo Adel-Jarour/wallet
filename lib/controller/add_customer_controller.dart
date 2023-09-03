@@ -73,5 +73,6 @@ class AddCustomerController extends GetxController {
     super.dispose();
     name.dispose();
     note.dispose();
+    formKey.currentState?.dispose();
   }
 }

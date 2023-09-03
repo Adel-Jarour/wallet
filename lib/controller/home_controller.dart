@@ -108,5 +108,6 @@ class HomeController extends GetxController {
     // TODO: implement dispose
     super.dispose();
     name.dispose();
+
   }
 }

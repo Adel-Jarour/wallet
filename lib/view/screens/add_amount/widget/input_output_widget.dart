@@ -22,7 +22,7 @@ class InputOutputWidget extends StatelessWidget {
           child: CustomButton(
             txt: Strings.incomeButton,
             onTap: () {
-              controller.changeComingIndex(0);
+              controller.changeIncoming();
             },
             colorButton: controller.incoming
                 ? ColorConst.primaryColor
@@ -37,7 +37,7 @@ class InputOutputWidget extends StatelessWidget {
           child: CustomButton(
             txt: Strings.outcomeButton,
             onTap: () {
-              controller.changeComingIndex(1);
+              controller.changeOutComing();
             },
             colorButton: controller.outComing
                 ? ColorConst.primaryColor

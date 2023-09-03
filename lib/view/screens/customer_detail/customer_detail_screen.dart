@@ -36,26 +36,21 @@ class CustomerDetailScreen extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                   letterSpacing: 1,
                 ),
-                content: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CustomText(
-                      txt: (controller.user.note != null &&
-                              controller.user.note!.isNotEmpty)
-                          ? controller.user.note!
-                          : Strings.nothings,
-                      color: Colors.black,
-                      fontSize: 17.sp,
-                      letterSpacing: 1,
-                      height: 1.4,
-                      softWrap: true,
-                    ),
-                  ],
+                content: CustomText(
+                  txt: (controller.user.note != null &&
+                          controller.user.note!.isNotEmpty)
+                      ? controller.user.note!
+                      : Strings.nothings,
+                  color: Colors.black,
+                  fontSize: 17.sp,
+                  letterSpacing: 1,
+                  height: 1.4,
+                  softWrap: true,
                 ),
               );
             },
             icon: Icon(
-              Icons.insert_drive_file_rounded,
+              Icons.info_outline,
               color: Colors.white,
             ),
           ),

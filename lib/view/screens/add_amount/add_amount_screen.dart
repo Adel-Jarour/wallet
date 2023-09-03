@@ -4,7 +4,6 @@ import 'package:customer_menu/view/screens/add_amount/widget/input_field_amount_
 import 'package:customer_menu/view/screens/add_amount/widget/input_output_widget.dart';
 import 'package:customer_menu/view/widgets/custem_text.dart';
 import 'package:customer_menu/view/widgets/custom_button.dart';
-import 'package:customer_menu/view/widgets/find_users_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -30,34 +29,27 @@ class AddAmountScreen extends StatelessWidget {
           ),
           child: GetBuilder<AddAmountController>(
             init: AddAmountController(),
-            builder: (controller) => Form(
-              key: controller.formKey,
-              child: Column(
-                children: [
-                  InputOutputWidget(),
-                  SizedBox(
-                    height: 50.h,
-                  ),
-                  FindUsersWidget(
-                    onTap: (index) {
-                      controller
-                          .setSelectedUser(controller.filteredUsers[index]);
-                    },
-                    filterUsers: controller.filteredUsers,
-                    checkIsSelectedUser: controller.checkIsSelectedUser(),
-                  ),
-                  InputFieldAmountWidget(),
-                  SizedBox(
-                    height: 50.h,
-                  ),
-                  CustomButton(
-                    txt: Strings.saveButton,
-                    onTap: () {
-                      controller.performSave();
-                    },
-                  ),
-                ],
-              ),
+            builder: (controller) => Column(
+              children: [
+                InputOutputWidget(),
+                SizedBox(
+                  height: 50.h,
+                ),
+                InputFieldAmountWidget(),
+                SizedBox(
+                  height: 50.h,
+                ),
+                CustomButton(
+                  txt: controller.updateAmount
+                      ? Strings.updateButton
+                      : Strings.saveButton,
+                  onTap: () {
+                    controller.updateAmount
+                        ? controller.performUpdate()
+                        : controller.performSave();
+                  },
+                ),
+              ],
             ),
           ),
         ),

@@ -43,6 +43,7 @@ class HomeScreen extends StatelessWidget {
                 vertical: 20.h, horizontal: 20.w),
             child: Column(
               children: [
+                HomeTextFieldWidget(),
                 FindUsersWidget(
                   onTap: (index) {
                     controller.setSelectedUser(controller.filteredUsers[index]);
@@ -50,7 +51,6 @@ class HomeScreen extends StatelessWidget {
                   filterUsers: controller.filteredUsers,
                   checkIsSelectedUser: true,
                 ),
-                HomeTextFieldWidget(),
                 SizedBox(
                   height: 60.h,
                 ),

@@ -1,27 +1,72 @@
 import 'package:customer_menu/components/custom_snackbar.dart';
 import 'package:customer_menu/constance/strings_const.dart';
+import 'package:customer_menu/controller/customer_details_controller.dart';
 import 'package:customer_menu/controller/home_controller.dart';
 import 'package:customer_menu/data/local/db_controller/db_helper.dart';
+import 'package:customer_menu/data/models/amount_model.dart';
 import 'package:customer_menu/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AddAmountController extends GetxController {
+  bool updateAmount = false;
+  AmountModel? amountModel;
+
+  void checkUpdate() async {
+    if (Get.arguments != null) {
+      AmountModel? amountModel = Get.arguments[0];
+      if (amountModel != null) {
+        if (amountModel.input != null) {
+          incoming = true;
+          outComing = false;
+        } else {
+          incoming = false;
+          outComing = true;
+        }
+
+        var user = await DatabaseHelper().getUser(amountModel.uid);
+        selectedUser = UserModel.fromMap(user![0]);
+
+        this.amountModel = amountModel;
+
+        isSelectedDate = true;
+        dateTime = [DateTime.now()];
+        selectedDate = amountModel.date.toString();
+        name.text = selectedUser!.name!;
+        amount.text = (amountModel.input ?? amountModel.output)!;
+        date.text = amountModel.date!;
+        note.text = amountModel.note ?? '';
+        updateAmount = true;
+      } else {
+        updateAmount = false;
+      }
+    } else {
+      incoming = true;
+      outComing = false;
+      updateAmount = false;
+    }
+    update();
+  }
 
   final HomeController homeController = Get.find();
 
-  bool incoming = true;
-  bool outComing = false;
+  late bool incoming;
+  late bool outComing;
 
-  int currentIndex = 0;
-
-  void changeComingIndex(int index) {
-    if (currentIndex != index) {
-      incoming = !incoming;
-      outComing = !outComing;
-      currentIndex = index;
-      update();
+  void changeIncoming() {
+    if (!incoming) {
+      incoming = true;
+      outComing = false;
     }
+    update();
+  }
+
+  void changeOutComing() {
+    if (!outComing) {
+      outComing = true;
+      incoming = false;
+    }
+    update();
   }
 
   var searchText = '';
@@ -81,6 +126,7 @@ class AddAmountController extends GetxController {
   late TextEditingController name;
   late TextEditingController amount;
   late TextEditingController date;
+  late TextEditingController note;
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -115,12 +161,14 @@ class AddAmountController extends GetxController {
       await DatabaseHelper().insertAmount(
         selectedUser?.id ?? 0,
         selectedDate,
+        note: note.text,
         input: amount.text,
       );
     } else {
       await DatabaseHelper().insertAmount(
         selectedUser?.id ?? 0,
         selectedDate,
+        note: note.text,
         output: amount.text,
       );
     }
@@ -129,6 +177,7 @@ class AddAmountController extends GetxController {
   bool isSubmit = false;
 
   void performSave() async {
+    print('performSave...');
     if (checkData()) {
       isSubmit = true;
       update();
@@ -141,7 +190,31 @@ class AddAmountController extends GetxController {
       name.clear();
       amount.clear();
       date.clear();
+      note.clear();
       homeController.getTotal();
+    }
+  }
+
+  void performUpdate() async {
+    print('performUpdate...');
+    if (checkData()) {
+      isSubmit = true;
+      update();
+      if (incoming) {
+        await DatabaseHelper().updateAmount(amountModel!.id, date.text,
+            input: amount.text, note: note.text);
+      } else {
+        await DatabaseHelper().updateAmount(amountModel!.id, date.text,
+            output: amount.text, note: note.text);
+      }
+      CustomerDetailsController customerDetailsController = Get.find();
+      customerDetailsController.getUserAmounts();
+      update();
+      Get.back();
+      CustomSnackBar.showCustomToast(
+        title: Strings.addAmountHome,
+        message: Strings.successUpdateAmount,
+      );
     }
   }
 
@@ -184,6 +257,8 @@ class AddAmountController extends GetxController {
     name = TextEditingController();
     amount = TextEditingController();
     date = TextEditingController();
+    note = TextEditingController();
+    checkUpdate();
   }
 
   @override
@@ -193,5 +268,7 @@ class AddAmountController extends GetxController {
     name.dispose();
     amount.dispose();
     date.dispose();
+    note.dispose();
+    formKey.currentState?.dispose();
   }
 }

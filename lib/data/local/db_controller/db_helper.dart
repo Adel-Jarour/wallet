@@ -36,6 +36,7 @@ class DatabaseHelper {
         user_id INTEGER NOT NULL,
         input TEXT,
         output TEXT,
+        note TEXT,
         date TEXT NOT NULL,
         FOREIGN KEY (user_id) REFERENCES users (id)
       )
@@ -60,7 +61,7 @@ class DatabaseHelper {
     return res;
   }
 
-  Future<void> insertAmount(int userId, String date, {String? input, String? output}) async {
+  Future<void> insertAmount(int userId, String date, {String? input, output, note}) async {
     final db = await database;
     await db?.insert(
       'amount',
@@ -68,6 +69,7 @@ class DatabaseHelper {
         'user_id': userId,
         'input': input,
         'output': output,
+        'note': note,
         'date': date,
       },
     );
@@ -82,6 +84,40 @@ class DatabaseHelper {
       whereArgs: [userId],
     );
   }
+
+  Future<List<Map<String, Object?>>?> getUser(int id) async {
+    final db = await database;
+    return await db?.query(
+      'users',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<int?> deleteAmount(int id, int userId) async {
+    final db = await database;
+    return await db?.delete(
+      'amount',
+      where: 'user_id = ? AND id = ?',
+      whereArgs: [userId, id],
+    );
+  }
+
+  Future<int?> updateAmount(int id, String date, {String? input, output, note}) async {
+    final db = await database;
+    return await db?.update(
+      'amount',
+      {
+        'input': input,
+        'output': output,
+        'date': date,
+        'note': note,
+      },
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
 
   Future<List<Map<String, dynamic>>?> getAllInputOutputAmounts() async {
     final db = await database;

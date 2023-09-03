@@ -5,6 +5,7 @@ class AmountModel {
   String? input;
   String? output;
   String? date;
+  String? note;
 
 
   AmountModel.fromMap(Map<String, dynamic> map) {
@@ -13,6 +14,7 @@ class AmountModel {
     input = map['input'];
     output = map['output'];
     date = map['date'];
+    note = map['note'];
   }
 
 }

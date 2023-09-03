@@ -29,7 +29,7 @@ class FindUsersWidget extends StatelessWidget {
               start: 15.w,
               end: 5.w,
             ),
-            margin: EdgeInsetsDirectional.only(bottom: 30.h),
+            margin: EdgeInsetsDirectional.only(top: 10.h),
             decoration: BoxDecoration(
               color: Colors.black12,
               borderRadius: BorderRadius.circular(8.0),

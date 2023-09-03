@@ -21,12 +21,16 @@ class Strings {
   static const String saveButton = "حفظ";
   static const String outcomeButton = "إخراج";
   static const String incomeButton = "إدخال";
+  static const String updateButton = "تعديل";
+  static const String yesButton = "نعم";
+  static const String noButton = "لا";
 
   static const String failedToAddCustomer = "هذا الزبون مضاف من قبل";
   static const String successToAddCustomer = "تم إضافة الزبون بنجاح";
 
   static const String pleaseChooseAmount = "الرجاء إختيار إسم";
   static const String successAddAmount = "تم إضافة المبلغ بنجاح";
+  static const String successUpdateAmount = "تم تعديل المبلغ بنجاح";
 
   static const String sumInputsDetail = "مجموع الدفعات الداخلة";
   static const String sumOutputsDetail = "مجموع الدفعات الخارجة";
@@ -41,4 +45,6 @@ class Strings {
   static const String nothings = "لا يوجد";
 
   static const String type = "العملية";
+
+  static const String areYouSureDelete = "هل تريد حذف هذه العملية؟";
 }
